@@ -481,7 +481,31 @@ ul { list-style: none; }
   font-style: italic;
 }
 
-/* Bridal Combo Banner */
+/* Touch device price hint (injected by JS) */
+.price-hint-touch {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  text-align: right;
+  margin-bottom: 8px;
+  opacity: 0.7;
+  font-style: italic;
+}
+
+/* On touch devices, remove the CSS ::before hint (JS injects its own) */
+@media (hover: none) and (pointer: coarse) {
+  .price-list::before { display: none; }
+
+  /* Make items look tappable */
+  .price-list li {
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(201,169,110,0.15);
+  }
+  .price-list li:active {
+    background: rgba(201,169,110,0.1);
+    border-radius: 4px;
+  }
+}
 .bridal-combo-banner {
   position: relative;
   background: linear-gradient(135deg, var(--charcoal) 0%, #3d2f1f 100%);
