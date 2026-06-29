@@ -218,7 +218,56 @@
   });
 
   /* ============================================
-     8. Event listeners + initial run
+     8. Mobile tap-to-reveal prices
+     On touch devices hover doesn't work, so
+     tapping a price-list item toggles the price.
+     ============================================ */
+  function isTouchDevice() {
+    return window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  }
+
+  function initPriceTap() {
+    if (!isTouchDevice()) return; // desktop — CSS hover handles it
+
+    const priceItems = document.querySelectorAll('.price-list li');
+
+    // Update hint text for touch users
+    document.querySelectorAll('.price-list').forEach(function (ul) {
+      // We'll inject a ::before replacement via a real element
+      const hint = document.createElement('p');
+      hint.className = 'price-hint-touch';
+      hint.textContent = 'Tap to see prices ✦';
+      ul.insertBefore(hint, ul.firstChild);
+    });
+
+    priceItems.forEach(function (item) {
+      item.addEventListener('click', function () {
+        const price = item.querySelector('span:last-child');
+        if (!price) return;
+
+        const isOpen = item.classList.contains('tapped');
+
+        // Close all others in same list
+        const siblings = item.closest('ul').querySelectorAll('li.tapped');
+        siblings.forEach(function (s) {
+          s.classList.remove('tapped');
+          s.querySelector('span:last-child').style.opacity = '0';
+          s.querySelector('span:last-child').style.transform = 'translateX(10px)';
+        });
+
+        if (!isOpen) {
+          item.classList.add('tapped');
+          price.style.opacity = '1';
+          price.style.transform = 'translateX(0)';
+        }
+      });
+    });
+  }
+
+  initPriceTap();
+
+  /* ============================================
+     9. Event listeners + initial run
      ============================================ */
   window.addEventListener('scroll', function () {
     handleScroll();
