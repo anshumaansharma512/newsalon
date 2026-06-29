@@ -440,11 +440,45 @@ ul { list-style: none; }
   border-bottom: 1px solid var(--cream);
 }
 .price-list li:last-child { border-bottom: none; }
+
+/* Price hidden by default — reveals on hover */
+.price-list li {
+  position: relative;
+  cursor: default;
+}
 .price-list li span:last-child {
   font-weight: 700;
   color: var(--gold-dark);
   white-space: nowrap;
   margin-left: 12px;
+
+  /* Hidden state */
+  opacity: 0;
+  transform: translateX(10px);
+  transition: opacity 0.28s ease, transform 0.28s ease;
+}
+.price-list li:hover {
+  background: linear-gradient(90deg, rgba(201,169,110,0.07) 0%, transparent 100%);
+  border-radius: 4px;
+  padding-left: 6px;
+  margin-left: -6px;
+}
+.price-list li:hover span:last-child {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Hint text so users know to hover */
+.price-list::before {
+  content: 'Hover to see prices ✦';
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  text-align: right;
+  margin-bottom: 8px;
+  opacity: 0.7;
+  font-style: italic;
 }
 
 /* Bridal Combo Banner */
